@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.11.4 on win32)" generated="20231028 21:49:18.686" rpa="false" schemaversion="4">
+<suite id="s1" name="Tests" source="C:\Users\dell\PycharmProjects\gorestApiAutomation\tests">
+<suite id="s1-s1" name="ApiTestSuite" source="C:\Users\dell\PycharmProjects\gorestApiAutomation\tests\ApiTestSuite.robot">
+<test id="s1-s1-t1" name="Basic GET call" line="24">
+<kw name="Create Session" library="RequestsLibrary">
+<arg>ActiveSession</arg>
+<arg>${BaseURL}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20231028 21:49:19.032" level="INFO">Creating Session using : alias=ActiveSession, url=https://gorest.co.in/, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20231028 21:49:19.032" endtime="20231028 21:49:19.032"/>
+</kw>
+<kw name="GET On Session" library="RequestsLibrary">
+<var>${Response}</var>
+<arg>ActiveSession</arg>
+<arg>${UsersResourcePath}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20231028 21:49:19.415" level="INFO">GET Request : url=https://gorest.co.in/public/v2/users 
+ path_url=/public/v2/users 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20231028 21:49:19.415" level="INFO">GET Response : url=https://gorest.co.in/public/v2/users 
+ status=200, reason=OK 
+ headers={'Date': 'Sat, 28 Oct 2023 16:19:19 GMT', 'Content-Type': 'application/json; charset=utf-8', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Cache-Control': 'max-age=0, private, must-revalidate', 'etag': 'W/"f642f32cc6f11b040885342f6989943b"', 'referrer-policy': 'strict-origin-when-cross-origin', 'vary': 'Origin', 'x-content-type-options': 'nosniff', 'x-download-options': 'noopen', 'x-frame-options': 'SAMEORIGIN', 'x-links-current': 'https://gorest.co.in/public/v2/users?page=1', 'x-links-next': 'https://gorest.co.in/public/v2/users?page=2', 'x-links-previous': '', 'x-pagination-limit': '10', 'x-pagination-page': '1', 'x-pagination-pages': '296', 'x-pagination-total': '2957', 'x-permitted-cross-domain-policies': 'none', 'x-request-id': 'c40770e9-e9d5-4ea7-938e-b6526dfece36', 'x-runtime': '0.024505', 'x-xss-protection': '0', 'CF-Cache-Status': 'DYNAMIC', 'Report-To': '{"endpoints":[{"url":"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=FJhoryCRcEFT5I0fbMyCHaEM2fDaZd3SdT4q8abctEs6rRhCOO3RXp%2FzqKwCBnYo%2F2OBEc7sNCPpRTGqtXRcT49FXibMONKhxMjI8j0dWhxs3rmcJHYFfgjY%2FwYRjrk%3D"}],"group":"cf-nel","max_age":604800}', 'NEL': '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}', 'Server': 'cloudflare', 'CF-RAY': '81d47fec2d2e3fce-SIN', 'Content-Encoding': 'gzip', 'alt-svc': 'h3=":443"; ma=86400'} 
+ body=[{"id":5543052,"name":"Giriraaj Sinha CPA","email":"giriraaj_sinha_cpa@hoppe.test","gender":"female","status":"inactive"},{"id":5543050,"name":"Sarvin Ahuja","email":"ahuja_sarvin@kuhlman.test","gender":"male","status":"active"},{"id":5543049,"name":"Tanushree Pilla","email":"tanushree_pilla@corwin-aufderhar.test","gender":"female","status":"inactive"},{"id":5543048,"name":"Mr. Anuja Mukhopadhyay","email":"mukhopadhyay_mr_anuja@barton.example","gender":"female","status":"inactive"},{"id":5543047,"name":"Diksha Kapoor","email":"kapoor_diksha@erdman.test","gender":"female","status":"inactive"},{"id":5543046,"name":"Deepankar Jain","email":"deepankar_jain@osinski-reichel.test","gender":"female","status":"active"},{"id":5543044,"name":"Kanak Embranthiri","email":"kanak_embranthiri@welch-rowe.test","gender":"female","status":"active"},{"id":5543043,"name":"Devesh Agarwal","email":"agarwal_devesh@waelchi.example","gender":"male","status":"active"},{"id":5543042,"name":"Sen. Akshita Gupta","email":"gupta_akshita_sen@willms-von.example","gender":"female","status":"active"},{"id":5543041,"name":"Dr. Opalina Pilla","email":"pilla_opalina_dr@fadel-thompson.example","gender":"female","status":"active"}] 
+ </msg>
+<msg timestamp="20231028 21:49:19.415" level="INFO">C:\Users\dell\AppData\Local\Programs\Python\Python311\Lib\site-packages\urllib3\connectionpool.py:1095: InsecureRequestWarning: Unverified HTTPS request is being made to host 'gorest.co.in'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(</msg>
+<msg timestamp="20231028 21:49:19.420" level="INFO">${Response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20231028 21:49:19.033" endtime="20231028 21:49:19.420"/>
+</kw>
+<kw name="Validate Response Code And Reason" library="Resources">
+<arg>${Response}</arg>
+<arg>200</arg>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<arg>${response.status_code}</arg>
+<arg>${ExpectedCode}</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<msg timestamp="20231028 21:49:19.421" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20231028 21:49:19.421" endtime="20231028 21:49:19.421"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response.reason}</arg>
+<arg>${StatusReasonCodes[str(${ExpectedCode})]}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20231028 21:49:19.421" endtime="20231028 21:49:19.430"/>
+</kw>
+<status status="PASS" starttime="20231028 21:49:19.421" endtime="20231028 21:49:19.430"/>
+</kw>
+<kw name="Validate Response Is JSON" library="Resources">
+<arg>${Response}</arg>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${Response.headers['Content-Type']}</arg>
+<arg>${ApplicationJson}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20231028 21:49:19.430" endtime="20231028 21:49:19.443"/>
+</kw>
+<status status="PASS" starttime="20231028 21:49:19.430" endtime="20231028 21:49:19.443"/>
+</kw>
+<kw name="Validate Response Has Pagination" library="Resources">
+<arg>${Response}</arg>
+<kw name="Dictionary Should Contain Key" library="Collections">
+<arg>dictionary=${Response.headers}</arg>
+<arg>key=x-pagination-total</arg>
+<arg>msg="Pagination is not present in response"</arg>
+<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
+<status status="PASS" starttime="20231028 21:49:19.443" endtime="20231028 21:49:19.443"/>
+</kw>
+<status status="PASS" starttime="20231028 21:49:19.443" endtime="20231028 21:49:19.443"/>
+</kw>
+<tag>GetCall</tag>
+<status status="PASS" starttime="20231028 21:49:19.031" endtime="20231028 21:49:19.443"/>
+</test>
+<doc>Main Test suite file where the Test cases are maintained</doc>
+<status status="PASS" starttime="20231028 21:49:18.718" endtime="20231028 21:49:19.454"/>
+</suite>
+<status status="PASS" starttime="20231028 21:49:18.688" endtime="20231028 21:49:19.458"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="1" fail="0" skip="0">GetCall</stat>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Tests">Tests</stat>
+<stat pass="1" fail="0" skip="0" id="s1-s1" name="ApiTestSuite">Tests.ApiTestSuite</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
