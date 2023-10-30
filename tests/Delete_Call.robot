@@ -1,8 +1,9 @@
 *** Settings ***
 # ----------------------------------------------------------------------------------------------------------------
 Documentation       Main Test suite file where the Test cases are maintained
-Default Tags        PostCall    All
+Default Tags        DeleteCall    All
 Library             Collections
+Library             String
 Library             RequestsLibrary
 Library             CryptoLibrary
 Suite Setup         Create Session With Bearer Token
@@ -13,10 +14,10 @@ Resource            ../resources/Properties.resource
 
 
 *** Test Cases ***
-Basic POST call
-    [Documentation]                     Test case to perform basic POST call
-    ${UpdatedJson}=	                    Create User Payload
-    ${Response}=                        POST On Session         ActiveSession       ${USERS_RESOURCE_PATH}    expected_status=any     data=${UpdatedJson}
-    Verify Response Code And Reason     ${Response}             201
-    ${UserId}=                          Fetch Response Value    ${Response}         id
-    Log                                 ${UserId}
+Basic DELETE call
+    [Documentation]                     Test case to perform basic DELETE call
+    ${UserId}=	                        Fetch Existing User Id    
+    ${UserId}=                          Convert To String       ${UserId}
+    ${Path}=                            Replace String	        ${USER_RESOURCE_PATH}     user_id     ${UserId}
+    ${Response}=                        DELETE On Session       ActiveSession       ${Path}      expected_status=any
+    Verify Response Code And Reason     ${Response}             204
