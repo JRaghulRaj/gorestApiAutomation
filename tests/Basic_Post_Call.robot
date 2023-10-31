@@ -1,22 +1,23 @@
 *** Settings ***
 # ----------------------------------------------------------------------------------------------------------------
-Documentation       Main Test suite file where the Test cases are maintained
-Default Tags        PostCall    All
+Documentation       Main Test suite file where the Test cases for basic POST call are maintained
+Default Tags        BasicPostCall    PostCall    All
 Library             Collections
 Library             RequestsLibrary
-Library             CryptoLibrary
 Suite Setup         Create Session With Bearer Token
-Suite Teardown      Delete All Sessions
-Resource            ../resources/Resources.resource
+Suite Teardown      Close Session And Upload Results
+Resource            ../resources/General_Utils.resource
+Resource            ../resources/Post_Call_Utils.resource
 Resource            ../resources/Properties.resource
 # ----------------------------------------------------------------------------------------------------------------
 
 
 *** Test Cases ***
-Basic POST call
-    [Documentation]                     Test case to perform basic POST call
-    ${UpdatedJson}=	                    Create User Payload
-    ${Response}=                        POST On Session         ActiveSession       ${USERS_RESOURCE_PATH}    expected_status=any     data=${UpdatedJson}
-    Verify Response Code And Reason     ${Response}             201
-    ${UserId}=                          Fetch Response Value    ${Response}         id
-    Log                                 ${UserId}
+Verify User creation Using Basic Post Call
+    [Documentation]                     Test case to perform basic POST call User Creation
+    ${PostPayload}=	                    Create User POST Payload    Create_User_POST_Payload.json        
+    ${Response}=                        POST On Session             ActiveSession       ${USERS_RESOURCE_PATH}    expected_status=any     data=${PostPayload}
+    Verify Response Code And Reason     ${Response}                 201
+    ${UserId}=                          Fetch Response Value        ${Response}         id
+    ${PostPayload}=                     Update Value To Json        ${PostPayload}      $.id                      ${UserId}
+    Validate Update Response            ${Response}                 ${PostPayload}

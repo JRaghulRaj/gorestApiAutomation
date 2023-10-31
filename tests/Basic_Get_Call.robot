@@ -1,13 +1,13 @@
 *** Settings ***
 # ----------------------------------------------------------------------------------------------------------------
-Documentation       Main Test suite file where the Test cases are maintained
-Default Tags        GetCall    All
+Documentation       Main Test suite file where the Test cases for basic GET call are maintained
+Default Tags        BasicGetCall    GetCall    All
 Library             Collections
 Library             RequestsLibrary
 Library             JSONLibrary
 Suite Setup         Create Session With Bearer Token
-Suite Teardown      Delete All Sessions
-Resource            ../resources/Resources.resource
+Suite Teardown      Close Session And Upload Results
+Resource            ../resources/General_Utils.resource
 Resource            ../resources/Properties.resource
 # ----------------------------------------------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ Verify GET Users
     Verify Response Is JSON                         ${Response}
     Verify Response Has Pagination                  ${Response}
     Verify Response Has Valid Email ID              ${Response}
-    Verify All List Data Have Similar Attributes    ${Response}         ${USERS_JSON_SCHEMA}
+    Verify All List Data Have Similar Attributes    ${Response}         JSON_Schema_Users.json
 
 Verify GET Posts
     [Documentation]                                 Test to perform GET call to fetch Posts
@@ -28,7 +28,7 @@ Verify GET Posts
     Verify Response Code And Reason                 ${Response}         200
     Verify Response Is JSON                         ${Response}
     Verify Response Has Pagination                  ${Response}
-    Verify All List Data Have Similar Attributes    ${Response}         ${POSTS_JSON_SCHEMA}
+    Verify All List Data Have Similar Attributes    ${Response}         JSON_Schema_Posts.json
 
 Verify GET Comments
     [Documentation]                                 Test to perform GET call to fetch Comments
@@ -37,7 +37,7 @@ Verify GET Comments
     Verify Response Is JSON                         ${Response}
     Verify Response Has Pagination                  ${Response}
     Verify Response Has Valid Email ID              ${Response}
-    Verify All List Data Have Similar Attributes    ${Response}         ${COMMENTS_JSON_SCHEMA}
+    Verify All List Data Have Similar Attributes    ${Response}         JSON_Schema_Comments.json
 
 Verify GET Todos
     [Documentation]                                 Test to perform GET call to fetch Todos
@@ -45,4 +45,4 @@ Verify GET Todos
     Verify Response Code And Reason                 ${Response}         200
     Verify Response Is JSON                         ${Response}
     Verify Response Has Pagination                  ${Response}
-    Verify All List Data Have Similar Attributes    ${Response}         ${TODOS_JSON_SCHEMA}
+    Verify All List Data Have Similar Attributes    ${Response}         JSON_Schema_Todos.json

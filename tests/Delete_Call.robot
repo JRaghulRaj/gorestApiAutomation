@@ -1,14 +1,14 @@
 *** Settings ***
 # ----------------------------------------------------------------------------------------------------------------
-Documentation       Main Test suite file where the Test cases are maintained
+Documentation       Main Test suite file where the Test cases for basic DELETE call are maintained
 Default Tags        DeleteCall    All
 Library             Collections
 Library             String
 Library             RequestsLibrary
-Library             CryptoLibrary
 Suite Setup         Create Session With Bearer Token
-Suite Teardown      Delete All Sessions
-Resource            ../resources/Resources.resource
+Suite Teardown      Close Session And Upload Results
+Resource            ../resources/General_Utils.resource
+Resource            ../resources/Get_Call_Utils.resource
 Resource            ../resources/Properties.resource
 # ----------------------------------------------------------------------------------------------------------------
 

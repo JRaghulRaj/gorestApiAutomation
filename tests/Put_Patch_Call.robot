@@ -1,14 +1,15 @@
 *** Settings ***
 # ----------------------------------------------------------------------------------------------------------------
-Documentation       Main Test suite file where the Test cases are maintained
+Documentation       Main Test suite file where the Test cases for PUT/PATCH call are maintained
 Default Tags        PutPatchCall    All
 Library             Collections
 Library             String
 Library             RequestsLibrary
-Library             CryptoLibrary
 Suite Setup         Create Session With Bearer Token
-Suite Teardown      Delete All Sessions
-Resource            ../resources/Resources.resource
+Suite Teardown      Close Session And Upload Results
+Resource            ../resources/General_Utils.resource
+Resource            ../resources/Get_Call_Utils.resource
+Resource            ../resources/Patch_Call_Utils.resource
 Resource            ../resources/Properties.resource
 # ----------------------------------------------------------------------------------------------------------------
 
@@ -45,7 +46,7 @@ Update Status using PATCH call
     Validate Update Response            ${Response}             ${PatchPayload}
 
 Update Gender using PATCH call
-    [Documentation]                     Test case to update Status using PATCH call
+    [Documentation]                     Test case to update Gender using PATCH call
     ${UserId}=	                        Fetch Existing User Id
     ${UserId}=                          Convert To String       ${UserId}
     ${Path}=                            Replace String	        ${USER_RESOURCE_PATH}     user_id     ${UserId}
@@ -55,7 +56,7 @@ Update Gender using PATCH call
     Validate Update Response            ${Response}             ${PatchPayload}
 
 Update All using PATCH call
-    [Documentation]                     Test case to update Status using PATCH call
+    [Documentation]                     Test case to update All using PATCH call
     ${UserId}=	                        Fetch Existing User Id
     ${UserId}=                          Convert To String       ${UserId}
     ${Path}=                            Replace String	        ${USER_RESOURCE_PATH}     user_id     ${UserId}
@@ -65,7 +66,7 @@ Update All using PATCH call
     Validate Update Response            ${Response}             ${PatchPayload}
 
 Update All using PUT call
-    [Documentation]                     Test case to update Status using PATCH call
+    [Documentation]                     Test case to update All using PUT call
     ${UserId}=	                        Fetch Existing User Id
     ${UserId}=                          Convert To String       ${UserId}
     ${Path}=                            Replace String	        ${USER_RESOURCE_PATH}     user_id     ${UserId}

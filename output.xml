@@ -1,95 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 6.1.1 (Python 3.11.4 on win32)" generated="20231028 21:49:18.686" rpa="false" schemaversion="4">
+<robot generator="Robot 6.1.1 (Python 3.11.4 on win32)" generated="20231031 18:29:55.021" rpa="false" schemaversion="4">
 <suite id="s1" name="Tests" source="C:\Users\dell\PycharmProjects\gorestApiAutomation\tests">
-<suite id="s1-s1" name="ApiTestSuite" source="C:\Users\dell\PycharmProjects\gorestApiAutomation\tests\ApiTestSuite.robot">
-<test id="s1-s1-t1" name="Basic GET call" line="24">
-<kw name="Create Session" library="RequestsLibrary">
-<arg>ActiveSession</arg>
-<arg>${BaseURL}</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<msg timestamp="20231028 21:49:19.032" level="INFO">Creating Session using : alias=ActiveSession, url=https://gorest.co.in/, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<status status="PASS" starttime="20231028 21:49:19.032" endtime="20231028 21:49:19.032"/>
+<suite id="s1-s1" name="Non SSL Behaviour" source="C:\Users\dell\PycharmProjects\gorestApiAutomation\tests\Non_SSL_Behaviour.robot">
+<kw name="Create Session With Bearer Token And Non-SSL URL" library="General_Utils" type="SETUP">
+<doc>Keyword to Non-SSL URL Session Creation. To be used in Setup.</doc>
+<msg timestamp="20231031 18:29:56.710" level="TRACE">Arguments: [  ]</msg>
+<kw name="Get Decrypted Text" library="CryptoLibrary">
+<var>${Token}</var>
+<arg>${BEARER_TOKEN}</arg>
+<doc>Decrypts cipher text and returns the plain text.</doc>
+<msg timestamp="20231031 18:29:56.710" level="TRACE">Arguments: [ 'crypt:mfStOh4iS7Hdimq45UezV7y/WUTJeQMmJCKfXHDBQhPbJ+mjLjXVb2HPnk6PDclgO9HAsARmLCXg8BCuY/82k/5jCbA3n4yb8EKI3sXOd03ydrFcQfiJKDQEUqN6Egw2yjOiN5BhOqR+vuCaALm1dw==' ]</msg>
+<msg timestamp="20231031 18:29:56.710" level="INFO">Decrypting text and return value.</msg>
+<msg timestamp="20231031 18:29:57.327" level="TRACE">Return: '***'</msg>
+<msg timestamp="20231031 18:29:57.327" level="INFO">${Token} = ***</msg>
+<status status="PASS" starttime="20231031 18:29:56.710" endtime="20231031 18:29:57.327"/>
 </kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{Headers}</var>
+<arg>Authorization=Bearer ${Token}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20231031 18:29:57.327" level="TRACE">Arguments: [ 'Authorization=Bearer ${Token}' ]</msg>
+<msg timestamp="20231031 18:29:57.327" level="TRACE">Return: {'Authorization': 'Bearer ***'}</msg>
+<msg timestamp="20231031 18:29:57.327" level="INFO">&amp;{Headers} = { Authorization=Bearer *** }</msg>
+<status status="PASS" starttime="20231031 18:29:57.327" endtime="20231031 18:29:57.327"/>
+</kw>
+<kw name="Create Session" library="RequestsLibrary">
+<arg>ActiveSessionNonSSL</arg>
+<arg>${NON_SSL_BASE_URL}</arg>
+<arg>headers=${Headers}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20231031 18:29:57.327" level="TRACE">Arguments: [ 'ActiveSessionNonSSL' | 'http://gorest.co.in/' | headers={'Authorization': 'Bearer ***'} ]</msg>
+<msg timestamp="20231031 18:29:57.327" level="INFO">Creating Session using : alias=ActiveSessionNonSSL, url=http://gorest.co.in/, headers={'Authorization': 'Bearer ***'},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<msg timestamp="20231031 18:29:57.327" level="DEBUG">Creating session: ActiveSessionNonSSL</msg>
+<msg timestamp="20231031 18:29:57.327" level="TRACE">Return: &lt;requests.sessions.Session object at 0x0000021A5ADDAD90&gt;</msg>
+<status status="PASS" starttime="20231031 18:29:57.327" endtime="20231031 18:29:57.327"/>
+</kw>
+<msg timestamp="20231031 18:29:57.327" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20231031 18:29:56.710" endtime="20231031 18:29:57.327"/>
+</kw>
+<test id="s1-s1-t1" name="Validate Non-SSL behaviour" line="16">
 <kw name="GET On Session" library="RequestsLibrary">
 <var>${Response}</var>
-<arg>ActiveSession</arg>
-<arg>${UsersResourcePath}</arg>
+<arg>ActiveSessionNonSSL</arg>
+<arg>${USERS_RESOURCE_PATH}</arg>
 <arg>expected_status=any</arg>
 <doc>Sends a GET request on a previously created HTTP Session.</doc>
-<msg timestamp="20231028 21:49:19.415" level="INFO">GET Request : url=https://gorest.co.in/public/v2/users 
+<msg timestamp="20231031 18:29:57.327" level="TRACE">Arguments: [ 'ActiveSessionNonSSL' | '/public/v2/users' | expected_status='any' ]</msg>
+<msg timestamp="20231031 18:29:57.327" level="DEBUG">Starting new HTTP connection (1): gorest.co.in:80</msg>
+<msg timestamp="20231031 18:29:57.628" level="DEBUG">http://gorest.co.in:80 "GET /public/v2/users HTTP/1.1" 301 None</msg>
+<msg timestamp="20231031 18:29:57.628" level="DEBUG">Starting new HTTPS connection (1): gorest.co.in:443</msg>
+<msg timestamp="20231031 18:29:58.377" level="DEBUG">https://gorest.co.in:443 "GET /public/v2/users HTTP/1.1" 200 None</msg>
+<msg timestamp="20231031 18:29:58.377" level="INFO">GET Request : url=http://gorest.co.in/public/v2/users (redirected) 
  path_url=/public/v2/users 
- headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer ***'} 
  body=None 
  </msg>
-<msg timestamp="20231028 21:49:19.415" level="INFO">GET Response : url=https://gorest.co.in/public/v2/users 
+<msg timestamp="20231031 18:29:58.392" level="INFO">GET Response : url=https://gorest.co.in/public/v2/users 
  status=200, reason=OK 
- headers={'Date': 'Sat, 28 Oct 2023 16:19:19 GMT', 'Content-Type': 'application/json; charset=utf-8', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Cache-Control': 'max-age=0, private, must-revalidate', 'etag': 'W/"f642f32cc6f11b040885342f6989943b"', 'referrer-policy': 'strict-origin-when-cross-origin', 'vary': 'Origin', 'x-content-type-options': 'nosniff', 'x-download-options': 'noopen', 'x-frame-options': 'SAMEORIGIN', 'x-links-current': 'https://gorest.co.in/public/v2/users?page=1', 'x-links-next': 'https://gorest.co.in/public/v2/users?page=2', 'x-links-previous': '', 'x-pagination-limit': '10', 'x-pagination-page': '1', 'x-pagination-pages': '296', 'x-pagination-total': '2957', 'x-permitted-cross-domain-policies': 'none', 'x-request-id': 'c40770e9-e9d5-4ea7-938e-b6526dfece36', 'x-runtime': '0.024505', 'x-xss-protection': '0', 'CF-Cache-Status': 'DYNAMIC', 'Report-To': '{"endpoints":[{"url":"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=FJhoryCRcEFT5I0fbMyCHaEM2fDaZd3SdT4q8abctEs6rRhCOO3RXp%2FzqKwCBnYo%2F2OBEc7sNCPpRTGqtXRcT49FXibMONKhxMjI8j0dWhxs3rmcJHYFfgjY%2FwYRjrk%3D"}],"group":"cf-nel","max_age":604800}', 'NEL': '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}', 'Server': 'cloudflare', 'CF-RAY': '81d47fec2d2e3fce-SIN', 'Content-Encoding': 'gzip', 'alt-svc': 'h3=":443"; ma=86400'} 
- body=[{"id":5543052,"name":"Giriraaj Sinha CPA","email":"giriraaj_sinha_cpa@hoppe.test","gender":"female","status":"inactive"},{"id":5543050,"name":"Sarvin Ahuja","email":"ahuja_sarvin@kuhlman.test","gender":"male","status":"active"},{"id":5543049,"name":"Tanushree Pilla","email":"tanushree_pilla@corwin-aufderhar.test","gender":"female","status":"inactive"},{"id":5543048,"name":"Mr. Anuja Mukhopadhyay","email":"mukhopadhyay_mr_anuja@barton.example","gender":"female","status":"inactive"},{"id":5543047,"name":"Diksha Kapoor","email":"kapoor_diksha@erdman.test","gender":"female","status":"inactive"},{"id":5543046,"name":"Deepankar Jain","email":"deepankar_jain@osinski-reichel.test","gender":"female","status":"active"},{"id":5543044,"name":"Kanak Embranthiri","email":"kanak_embranthiri@welch-rowe.test","gender":"female","status":"active"},{"id":5543043,"name":"Devesh Agarwal","email":"agarwal_devesh@waelchi.example","gender":"male","status":"active"},{"id":5543042,"name":"Sen. Akshita Gupta","email":"gupta_akshita_sen@willms-von.example","gender":"female","status":"active"},{"id":5543041,"name":"Dr. Opalina Pilla","email":"pilla_opalina_dr@fadel-thompson.example","gender":"female","status":"active"}] 
+ headers={'Date': 'Tue, 31 Oct 2023 12:59:58 GMT', 'Content-Type': 'application/json; charset=utf-8', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Cache-Control': 'max-age=0, private, must-revalidate', 'etag': 'W/"df4a42bd68205466bec551af58c58269"', 'referrer-policy': 'strict-origin-when-cross-origin', 'vary': 'Origin', 'x-content-type-options': 'nosniff', 'x-download-options': 'noopen', 'x-frame-options': 'SAMEORIGIN', 'x-links-current': 'https://gorest.co.in/public/v2/users?page=1', 'x-links-next': 'https://gorest.co.in/public/v2/users?page=2', 'x-links-previous': '', 'x-pagination-limit': '10', 'x-pagination-page': '1', 'x-pagination-pages': '310', 'x-pagination-total': '3098', 'x-permitted-cross-domain-policies': 'none', 'x-ratelimit-limit': '90', 'x-ratelimit-remaining': '89', 'x-ratelimit-reset': '1', 'x-request-id': '04b5aca3-30be-4bac-b061-657fc3c9a223', 'x-runtime': '0.085750', 'x-xss-protection': '0', 'CF-Cache-Status': 'DYNAMIC', 'Report-To': '{"endpoints":[{"url":"https:\\/\\/a.nel.cloudflare.com\\/report\\/v3?s=VlKsU9X3VxmEMign70jSF7I%2FdAsZXQi%2Bh9SZVUw2AU458mhbhCx02gY6CodOF2CQ%2B7p%2BmImHV3ZyQvb%2Be8jfDFLxurzJkuW0QyLIMAApOMjc5Gwgu%2BslP9eKkJvNPyAnRG94ymxlHcl1BMw%3D"}],"group":"cf-nel","max_age":604800}', 'NEL': '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}', 'Server': 'cloudflare', 'CF-RAY': '81ec140adb910d82-MRS', 'Content-Encoding': 'gzip', 'alt-svc': 'h3=":443"; ma=86400'} 
+ body=[{"id":5611972,"name":"Jacqueline","email":"vancejulia@hotmail.com","gender":"female","status":"inactive"},{"id":5611906,"name":"Jason","email":"meredith06@yahoo.com","gender":"male","status":"active"},{"id":5611659,"name":"Keith","email":"reneemartin@gmail.com","gender":"male","status":"active"},{"id":5611626,"name":"Dennis","email":"whiterebecca@gmail.com","gender":"male","status":"active"},{"id":5611587,"name":"Jared","email":"daryl34@gmail.com","gender":"male","status":"active"},{"id":5609062,"name":"Jonathon","email":"pgross@gmail.com","gender":"male","status":"active"},{"id":5608951,"name":"Marc","email":"danielchandler@gmail.com","gender":"male","status":"active"},{"id":5608401,"name":"Thomas","email":"nicolewilliams@gmail.com","gender":"male","status":"active"},{"id":5602110,"name":"Randall","email":"matthew96@yahoo.com","gender":"male","status":"active"},{"id":5601678,"name":"Patrick","email":"jraghulraje6774567778998944@gmail.com","gender":"male","status":"active"}] 
  </msg>
-<msg timestamp="20231028 21:49:19.415" level="INFO">C:\Users\dell\AppData\Local\Programs\Python\Python311\Lib\site-packages\urllib3\connectionpool.py:1095: InsecureRequestWarning: Unverified HTTPS request is being made to host 'gorest.co.in'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+<msg timestamp="20231031 18:29:58.392" level="INFO">C:\Users\dell\AppData\Local\Programs\Python\Python311\Lib\site-packages\urllib3\connectionpool.py:1095: InsecureRequestWarning: Unverified HTTPS request is being made to host 'gorest.co.in'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
   warnings.warn(</msg>
-<msg timestamp="20231028 21:49:19.420" level="INFO">${Response} = &lt;Response [200]&gt;</msg>
-<status status="PASS" starttime="20231028 21:49:19.033" endtime="20231028 21:49:19.420"/>
+<msg timestamp="20231031 18:29:58.392" level="TRACE">Return: &lt;Response [200]&gt;</msg>
+<msg timestamp="20231031 18:29:58.392" level="INFO">${Response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20231031 18:29:57.327" endtime="20231031 18:29:58.392"/>
 </kw>
-<kw name="Validate Response Code And Reason" library="Resources">
-<arg>${Response}</arg>
+<kw name="Should Not Be Equal As Integers" library="BuiltIn">
+<arg>${Response.status_code}</arg>
 <arg>200</arg>
-<kw name="Should Be Equal As Integers" library="BuiltIn">
-<arg>${response.status_code}</arg>
-<arg>${ExpectedCode}</arg>
-<doc>Fails if objects are unequal after converting them to integers.</doc>
-<msg timestamp="20231028 21:49:19.421" level="INFO">Argument types are:
+<arg>msg=API call is successful on HTTP[Non-SSL] endpoint.</arg>
+<doc>Fails if objects are equal after converting them to integers.</doc>
+<msg timestamp="20231031 18:29:58.392" level="TRACE">Arguments: [ 200 | '200' | msg='API call is successful on HTTP[Non-SSL] endpoint.' ]</msg>
+<msg timestamp="20231031 18:29:58.392" level="INFO">Argument types are:
 &lt;class 'int'&gt;
 &lt;class 'str'&gt;</msg>
-<status status="PASS" starttime="20231028 21:49:19.421" endtime="20231028 21:49:19.421"/>
+<msg timestamp="20231031 18:29:58.392" level="FAIL">API call is successful on HTTP[Non-SSL] endpoint.: 200 == 200</msg>
+<msg timestamp="20231031 18:29:58.392" level="DEBUG">Traceback (most recent call last):
+  None
+AssertionError: API call is successful on HTTP[Non-SSL] endpoint.: 200 == 200</msg>
+<status status="FAIL" starttime="20231031 18:29:58.392" endtime="20231031 18:29:58.392"/>
 </kw>
-<kw name="Should Be Equal As Strings" library="BuiltIn">
-<arg>${response.reason}</arg>
-<arg>${StatusReasonCodes[str(${ExpectedCode})]}</arg>
-<doc>Fails if objects are unequal after converting them to strings.</doc>
-<status status="PASS" starttime="20231028 21:49:19.421" endtime="20231028 21:49:19.430"/>
-</kw>
-<status status="PASS" starttime="20231028 21:49:19.421" endtime="20231028 21:49:19.430"/>
-</kw>
-<kw name="Validate Response Is JSON" library="Resources">
-<arg>${Response}</arg>
-<kw name="Should Contain" library="BuiltIn">
-<arg>${Response.headers['Content-Type']}</arg>
-<arg>${ApplicationJson}</arg>
-<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
-<status status="PASS" starttime="20231028 21:49:19.430" endtime="20231028 21:49:19.443"/>
-</kw>
-<status status="PASS" starttime="20231028 21:49:19.430" endtime="20231028 21:49:19.443"/>
-</kw>
-<kw name="Validate Response Has Pagination" library="Resources">
-<arg>${Response}</arg>
-<kw name="Dictionary Should Contain Key" library="Collections">
-<arg>dictionary=${Response.headers}</arg>
-<arg>key=x-pagination-total</arg>
-<arg>msg="Pagination is not present in response"</arg>
-<doc>Fails if ``key`` is not found from ``dictionary``.</doc>
-<status status="PASS" starttime="20231028 21:49:19.443" endtime="20231028 21:49:19.443"/>
-</kw>
-<status status="PASS" starttime="20231028 21:49:19.443" endtime="20231028 21:49:19.443"/>
-</kw>
-<tag>GetCall</tag>
-<status status="PASS" starttime="20231028 21:49:19.031" endtime="20231028 21:49:19.443"/>
+<doc>Test case to verify Non-SSL behaviour</doc>
+<tag>All</tag>
+<tag>NonSSL</tag>
+<status status="FAIL" starttime="20231031 18:29:57.327" endtime="20231031 18:29:58.392">API call is successful on HTTP[Non-SSL] endpoint.: 200 == 200</status>
 </test>
-<doc>Main Test suite file where the Test cases are maintained</doc>
-<status status="PASS" starttime="20231028 21:49:18.718" endtime="20231028 21:49:19.454"/>
+<kw name="Close Session And Upload Results" library="General_Utils" type="TEARDOWN">
+<doc>Keyword to Close Session and Upload results to MongoDB</doc>
+<msg timestamp="20231031 18:29:58.392" level="TRACE">Arguments: [  ]</msg>
+<kw name="Delete All Sessions" library="RequestsLibrary">
+<doc>Removes all the session objects</doc>
+<msg timestamp="20231031 18:29:58.392" level="TRACE">Arguments: [  ]</msg>
+<msg timestamp="20231031 18:29:58.392" level="INFO">Deleting All Sessions</msg>
+<msg timestamp="20231031 18:29:58.392" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20231031 18:29:58.392" endtime="20231031 18:29:58.392"/>
+</kw>
+<kw name="Get Decrypted Text" library="CryptoLibrary">
+<var>${Mongo_Password}</var>
+<arg>${MONGO_DB_PASSWORD}</arg>
+<doc>Decrypts cipher text and returns the plain text.</doc>
+<msg timestamp="20231031 18:29:58.392" level="TRACE">Arguments: [ 'crypt:vJo1Q/3q6nsfz+LDpo5AFGrM4WYjrbls0cMzY7VQXneRBENLZdjkZ+FdCOX5AL2ad/zXcNcs22wcKPnJ0zB3/Q==' ]</msg>
+<msg timestamp="20231031 18:29:58.392" level="INFO">Decrypting text and return value.</msg>
+<msg timestamp="20231031 18:29:58.392" level="TRACE">Return: '***'</msg>
+<msg timestamp="20231031 18:29:58.392" level="INFO">${Mongo_Password} = ***</msg>
+<status status="PASS" starttime="20231031 18:29:58.392" endtime="20231031 18:29:58.392"/>
+</kw>
+<kw name="Create Conn Upload" library="MongoDB">
+<arg>${Mongo_Password}</arg>
+<msg timestamp="20231031 18:29:58.392" level="TRACE">Arguments: [ '***' ]</msg>
+<msg timestamp="20231031 18:30:00.551" level="INFO">Pinged your deployment. You successfully connected to MongoDB!
+upload_complete
+upload_complete
+upload_complete</msg>
+<msg timestamp="20231031 18:30:00.551" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20231031 18:29:58.392" endtime="20231031 18:30:00.551"/>
+</kw>
+<msg timestamp="20231031 18:30:00.551" level="TRACE">Return: None</msg>
+<status status="PASS" starttime="20231031 18:29:58.392" endtime="20231031 18:30:00.551"/>
+</kw>
+<doc>Main Test suite file where the Test cases Non-SSL check are maintained</doc>
+<status status="FAIL" starttime="20231031 18:29:55.052" endtime="20231031 18:30:00.551"/>
 </suite>
-<status status="PASS" starttime="20231028 21:49:18.688" endtime="20231028 21:49:19.458"/>
+<status status="FAIL" starttime="20231031 18:29:55.021" endtime="20231031 18:30:00.551"/>
 </suite>
 <statistics>
 <total>
-<stat pass="1" fail="0" skip="0">All Tests</stat>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
 </total>
 <tag>
-<stat pass="1" fail="0" skip="0">GetCall</stat>
+<stat pass="0" fail="1" skip="0">All</stat>
+<stat pass="0" fail="1" skip="0">NonSSL</stat>
 </tag>
 <suite>
-<stat pass="1" fail="0" skip="0" id="s1" name="Tests">Tests</stat>
-<stat pass="1" fail="0" skip="0" id="s1-s1" name="ApiTestSuite">Tests.ApiTestSuite</stat>
+<stat pass="0" fail="1" skip="0" id="s1" name="Tests">Tests</stat>
+<stat pass="0" fail="1" skip="0" id="s1-s1" name="Non SSL Behaviour">Tests.Non SSL Behaviour</stat>
 </suite>
 </statistics>
 <errors>
